@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice Creation Flexeereledger API Documentation</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 250px;
+      background: #1f1f1f;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar h2 {
+      color: #00bfff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: #e0e0e0;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      color: #00bfff;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 270px;
+      padding: 20px;
+      flex: 1;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      animation: backgroundAnimation 10s infinite alternate;
+    }
+
+    @keyframes backgroundAnimation {
+      from {
+        background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      }
+      to {
+        background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      }
+    }
+
+    h1, h2, h3, h4 {
+      color: #00bfff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    pre {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      margin-bottom: 20px;
+    }
+
+    code {
+      background: #2a2a2a;
+      padding: 2px 4px;
+      border-radius: 3px;
+      color: #ffcc00;
+    }
+
+    /* Accordion Styles */
+    .accordion {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      cursor: pointer;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+
+    .accordion:hover, .active {
+      background-color: #00bfff;
+      color: #1f1f1f;
+    }
+
+    .panel {
+      padding: 0 15px;
+      display: none;
+      background-color: #2a2a2a;
+      overflow: hidden;
+      border-radius: 0 0 5px 5px;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f1f1f;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #00bfff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <h2>API Docs</h2>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#base-url">Base URL</a></li>
+      <li><a href="#authentication">Authentication</a></li>
+      <li><a href="#endpoint">Endpoint</a></li>
+      <li><a href="#request-body">Request Body</a></li>
+      <li><a href="#example-request">Example Request</a></li>
+      <li><a href="#example-response">Example Response</a></li>
+      <li><a href="#calculation-details">Calculation Details</a></li>
+      <li><a href="#error-handling">Error Handling</a></li>
+      <li><a href="#usage-notes">Usage Notes</a></li>
+      <li><a href="#testing-api">Testing the API</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="#change-log">Change Log</a></li>
+      <li><a href="#terms-of-use">Terms of Use</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 id="introduction">Invoice Creation API Documentation</h1>
+    <section id="introduction">
+      <h2>Introduction</h2>
+      <p>Welcome to the Invoice Creation API documentation. This API endpoint allows you to create invoices by providing customer details, product information, payment details, and other relevant data. The API is designed to be simple and intuitive, making it easy for you to integrate invoice creation functionality into your applications.</p>
+      <p>This documentation will guide you through the process of using the API, including the required request format, parameters, authentication, and example usage.</p>
+    </section>
+
+    <section id="base-url">
+      <h2>Base URL</h2>
+      <p>All API requests are made to the following base URL:</p>
+      <pre>https://your-api-domain.com/invoices</pre>
+    </section>
+
+    <section id="authentication">
+      <h2>Authentication</h2>
+      <p>To use the Invoice Creation API, you need to authenticate your requests using an API key. The API key should be included in the request headers as <code>x-api-key</code>.</p>
+      <h3>Headers</h3>
+      <pre>{
+  "Content-Type": "application/json",
+  "x-api-key": "your_company_api_key"
+}</pre>
+      <p><strong>Note:</strong> Replace <code>your_company_api_key</code> with the API key provided to you. If you don't have an API key, please contact the API administrator to obtain one.</p>
+    </section>
+
+    <section id="endpoint">
+      <h2>Endpoint: Create a New Invoice</h2>
+      <h3>HTTP Method</h3>
+      <p><strong>POST</strong></p>
+
+      <h3>URL</h3>
+      <pre>https://your-api-domain.com/invoices</pre>
+
+      <h3>Description</h3>
+      <p>Creates a new invoice with the provided customer details, products, payment information, and other optional data.</p>
+    </section>
+
+    <section id="request-body">
+      <h2>Request Body</h2>
+      <p>The request body should be a JSON object containing the following fields:</p>
+
+      <h3>Required Fields</h3>
+      <ul>
+        <li><code>customerName</code> (string): The name of the customer.</li>
+        <li><code>products</code> (array of objects): A list of products included in the invoice.
+          <ul>
+            <li><code>quantity</code> (number): The quantity of the product.</li>
+            <li><code>price</code> (number): The price per unit of the product.</li>
+            <li><code>productDescription</code> (string): A description of the product.</li>
+            <li><code>productType</code> (string): The type or category of the product.</li>
+          </ul>
+        </li>
+        <li><code>paymentInfos</code> (array of objects): Payment information for the invoice.
+          <ul>
+            <li><code>paymentMethod</code> (string): The method of payment (e.g., "Credit Card", "Bank Transfer").</li>
+            <li><code>paymentType</code> (string): The type of payment (e.g., "Online", "Offline").</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Optional Fields</h3>
+      <ul>
+        <li><code>customerEmail</code> (string): The email address of the customer.</li>
+        <li><code>customerAddress</code> (string): The street address of the customer.</li>
+        <li><code>customerCity</code> (string): The city of the customer.</li>
+        <li><code>customerState</code> (string): The state or province of the customer.</li>
+        <li><code>customerCountry</code> (string): The country of the customer.</li>
+        <li><code>customerPostCode</code> (string): The postal code of the customer.</li>
+        <li><code>customerTaxId</code> (string): The tax identification number of the customer.</li>
+        <li><code>discountAmount</code> (number): The discount amount to be applied to the invoice.</li>
+        <li><code>gst</code> (number): The GST (Goods and Services Tax) rate to be applied. Default is 18.</li>
+        <li><code>isInclusive</code> (boolean): Indicates whether the prices are GST inclusive (true) or exclusive (false). Default is false.</li>
+        <li><code>credit</code> (number): Any credit amount to be applied to the invoice.</li>
+        <li><code>createdAt</code> (string): The date and time the invoice was created, in ISO 8601 format (e.g., "2023-10-10T12:34:56Z"). If not provided, the current date and time will be used.</li>
+        <li><code>paymentInfos.transactionId</code> (string): The transaction ID for the payment. Optional.</li>
+      </ul>
+    </section>
+
+    <section id="example-request">
+      <h2>Example Request</h2>
+      <p>Here's an example of how to create a new invoice using the API.</p>
+
+      <h3>Request URL</h3>
+      <pre>POST https://your-api-domain.com/invoices</pre>
+
+      <h3>Headers</h3>
+      <pre>{
+  "Content-Type": "application/json",
+  "x-api-key": "your_company_api_key"
+}</pre>
+
+      <h3>Request Body</h3>
+      <pre>{
+  "customerName": "John Doe",
+  "customerEmail": "john.doe@example.com",
+  "customerAddress": "123 Main St",
+  "customerCity": "Anytown",
+  "customerState": "Anystate",
+  "customerCountry": "Country",
+  "customerPostCode": "123456",
+  "customerTaxId": "TAX123456",
+  "products": [
+    {
+      "quantity": 2,
+      "price": 150.0,
+      "productDescription": "Wireless Mouse",
+      "productType": "Electronics",
+      "productAmount": 150.0,
+      "productHsnSacCode": "847160"
+    },
+    {
+      "quantity": 1,
+      "price": 1200.0,
+      "productDescription": "Mechanical Keyboard",
+      "productType": "Electronics",
+      "productAmount": 1200.0,
+      "productHsnSacCode": "847160"
+    }
+  ],
+  "paymentInfos": [
+    {
+      "paymentMethod": "Credit Card",
+      "paymentType": "Online",
+      "transactionId": "txn_0011223344"
+    }
+  ],
+  "discountAmount": 50.0,
+  "gst": 18,
+  "isInclusive": false,
+  "credit": 0.0,
+  "createdAt": "2023-10-10T10:00:00Z"
+}</pre>
+    </section>
+
+    <section id="example-response">
+      <h2>Example Response</h2>
+      <p>On successful creation of the invoice, the API will respond with a <strong>201 Created</strong> status code and the newly created invoice object.</p>
+
+      <h3>Response Body</h3>
+      <pre>{
+  "invoice": {
+    "id": "generated_invoice_id",
+    "invoiceNo": "ABC-20231010-1",
+    "amount": 1593.0,
+    "total": 1543.0,
+    "discountAmount": 50.0,
+    "gst": 18,
+    "isInclusive": false,
+    "credit": 0.0,
+    "createdAt": "2023-10-10T10:00:00.000Z",
+    "updatedAt": "2023-10-10T10:00:00.000Z",
+    "customerName": "John Doe",
+    "customerEmail": "john.doe@example.com",
+    "customerAddress": "123 Main St",
+    "customerCity": "Anytown",
+    "customerState": "Anystate",
+    "customerCountry": "Country",
+    "customerPostCode": "123456",
+    "customerTaxId": "TAX123456",
+    "companyId": "your_company_id",
+    "company": {
+      // ... company details ...
+    },
+    "invoiceItems": [
+      {
+        "id": "item_id_1",
+        "quantity": 2,
+        "price": 150.0,
+        "productDescription": "Wireless Mouse",
+        "productType": "Electronics",
+        "productAmount": 150.0,
+        "productHsnSacCode": "847160",
+        "invoiceId": "generated_invoice_id"
+      },
+      {
+        "id": "item_id_2",
+        "quantity": 1,
+        "price": 1200.0,
+        "productDescription": "Mechanical Keyboard",
+        "productType": "Electronics",
+        "productAmount": 1200.0,
+        "productHsnSacCode": "847160",
+        "invoiceId": "generated_invoice_id"
+      }
+    ],
+    "paymentInfos": [
+      {
+        "id": "payment_info_id",
+        "paymentMethod": "Credit Card",
+        "paymentType": "Online",
+        "transactionId": "txn_0011223344",
+        "invoiceId": "generated_invoice_id"
+      }
+    ]
+  }
+}</pre>
+      <p><strong>Note:</strong> The <code>id</code> fields ("generated_invoice_id", "item_id_1", etc.) are placeholders and will be unique identifiers generated by the system.</p>
+    </section>
+
+    <section id="calculation-details">
+      <h2>Calculation Details</h2>
+      
+      <h3>Amount Calculation:</h3>
+      <p>The <code>amount</code> field represents the total amount including GST (if <code>isInclusive</code> is false) or excluding GST (if <code>isInclusive</code> is true).</p>
+      <ul>
+        <li>When <code>isInclusive</code> is false:
+          <pre>amount = sum of (quantity × price) + GST</pre>
+        </li>
+        <li>When <code>isInclusive</code> is true:
+          <pre>amount = sum of (quantity × price) (GST is included in the prices)</pre>
+        </li>
+      </ul>
+
+      <h3>GST Calculation:</h3>
+      <ul>
+        <li>If <code>isInclusive</code> is false, GST is added to the base amount.</li>
+        <li>If <code>isInclusive</code> is true, GST is calculated from the base amount.</li>
+      </ul>
+
+      <h3>Total Calculation:</h3>
+      <pre>total = amount - discountAmount - credit</pre>
+    </section>
+
+    <section id="error-handling">
+      <h2>Error Handling</h2>
+      <p>The API uses standard HTTP status codes to indicate the success or failure of an API request. In general:</p>
+      <ul>
+        <li><strong>200 OK</strong>: The request was successful.</li>
+        <li><strong>201 Created</strong>: The resource was successfully created.</li>
+        <li><strong>400 Bad Request</strong>: The request was invalid or cannot be served. The exact error is provided in the error message.</li>
+        <li><strong>401 Unauthorized</strong>: Authentication failed or was not provided.</li>
+        <li><strong>403 Forbidden</strong>: The request is understood, but it has been refused or access is not allowed.</li>
+        <li><strong>404 Not Found</strong>: The requested resource could not be found.</li>
+        <li><strong>500 Internal Server Error</strong>: An error occurred on the server.</li>
+      </ul>
+
+      <h3>Error Response Format</h3>
+      <p>Errors are returned in the following JSON format:</p>
+      <pre>{
+  "error": "Error message detailing what went wrong."
+}</pre>
+
+      <h3>Example Error Responses</h3>
+      <button class="accordion">Missing Required Fields</button>
+      <div class="panel">
+        <p><strong>Status Code:</strong> 400 Bad Request</p>
+        <p><strong>Response Body:</strong></p>
+        <pre>{
+  "error": "Missing required fields"
+}</pre>
+      </div>
+
+      <button class="accordion">Invalid API Key</button>
+      <div class="panel">
+        <p><strong>Status Code:</strong> 401 Unauthorized</p>
+        <p><strong>Response Body:</strong></p>
+        <pre>{
+  "error": "Invalid API key"
+}</pre>
+      </div>
+
+      <button class="accordion">Company Not Found</button>
+      <div class="panel">
+        <p><strong>Status Code:</strong> 404 Not Found</p>
+        <p><strong>Response Body:</strong></p>
+        <pre>{
+  "error": "Company not found"
+}</pre>
+      </div>
+
+      <button class="accordion">Internal Server Error</button>
+      <div class="panel">
+        <p><strong>Status Code:</strong> 500 Internal Server Error</p>
+        <p><strong>Response Body:</strong></p>
+        <pre>{
+  "error": "Internal Server Error"
+}</pre>
+      </div>
+    </section>
+
+    <section id="usage-notes">
+      <h2>Usage Notes</h2>
+      <ul>
+        <li><strong>Date and Time Formats:</strong> All date and time values should be in ISO 8601 format.</li>
+        <li><strong>Currency:</strong> All monetary values are in the currency specified by your company settings (e.g., INR for Indian Rupees). Ensure that you use the correct currency in your calculations.</li>
+        <li><strong>GST Rates:</strong> The default GST rate is 18%. If your products are subject to a different GST rate, specify it in the <code>gst</code> field.</li>
+        <li><strong>Authentication:</strong> Always include your API key in the request headers. Requests without a valid API key will be rejected.</li>
+        <li><strong>Validation:</strong> Ensure that all required fields are provided and that they contain valid data types.</li>
+      </ul>
+    </section>
+
+    <section id="testing-api">
+      <h2>Testing the API</h2>
+      <p>You can test the API using tools like cURL, Postman, or Thunder Client. Below are examples using cURL.</p>
+
+      <h3>cURL Example</h3>
+      <pre>curl -X POST https://your-api-domain.com/invoices \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your_company_api_key" \
+  -d '{
+    "customerName": "John Doe",
+    "customerEmail": "john.doe@example.com",
+    "customerAddress": "123 Main St",
+    "customerCity": "Anytown",
+    "customerState": "Anystate",
+    "customerCountry": "Country",
+    "customerPostCode": "123456",
+    "customerTaxId": "TAX123456",
+    "products": [
+      {
+        "quantity": 2,
+        "price": 150.0,
+        "productDescription": "Wireless Mouse",
+        "productType": "Electronics",
+        "productAmount": 150.0,
+        "productHsnSacCode": "847160"
+      },
+      {
+        "quantity": 1,
+        "price": 1200.0,
+        "productDescription": "Mechanical Keyboard",
+        "productType": "Electronics",
+        "productAmount": 1200.0,
+        "productHsnSacCode": "847160"
+      }
+    ],
+    "paymentInfos": [
+      {
+        "paymentMethod": "Credit Card",
+        "paymentType": "Online",
+        "transactionId": "txn_0011223344"
+      }
+    ],
+    "discountAmount": 50.0,
+    "gst": 18,
+    "isInclusive": false,
+    "credit": 0.0,
+    "createdAt": "2023-10-10T10:00:00Z"
+  }'</pre>
+
+      <h3>Postman</h3>
+      <ol>
+        <li>Open Postman and create a new POST request.</li>
+        <li>Set the request URL to <code>https://your-api-domain.com/invoices</code>.</li>
+        <li>In the Headers tab, add:
+          <ul>
+            <li><code>Content-Type: application/json</code></li>
+            <li><code>x-api-key: your_company_api_key</code></li>
+          </ul>
+        </li>
+        <li>In the Body tab, select <strong>raw</strong> and paste the JSON request body as shown in the example above.</li>
+        <li>Click <strong>Send</strong> to make the request.</li>
+      </ol>
+    </section>
+
+    <section id="faq">
+      <h2>Frequently Asked Questions (FAQ)</h2>
+
+      <button class="accordion">Q1: How do I obtain an API key?</button>
+      <div class="panel">
+        <p>Please go to flexeereledger.com and login through usiing your company mail and gets generated api from settings page.</p>
+      </div>
+
+      <button class="accordion">Q2: Can I include more than one payment method in paymentInfos?</button>
+      <div class="panel">
+        <p>Yes, the <code>paymentInfos</code> array can include multiple payment methods if the invoice was paid using multiple methods.</p>
+      </div>
+
+      <button class="accordion">Q3: What happens if I don't specify the gst field?</button>
+      <div class="panel">
+        <p>If you don't specify the <code>gst</code> field, the default GST rate of 18% will be applied to the invoice.</p>
+      </div>
+
+      <button class="accordion">Q4: Can I create an invoice without any products?</button>
+      <div class="panel">
+        <p>No, the <code>products</code> array must include at least one product. Otherwise, the API will return a <strong>400 Bad Request</strong> error.</p>
+      </div>
+
+      <button class="accordion">Q5: Is the transactionId in paymentInfos mandatory?</button>
+      <div class="panel">
+        <p>No, the <code>transactionId</code> is optional. If you have a transaction ID from the payment gateway or bank, you can include it for reference.</p>
+      </div>
+    </section>
+
+    <section id="support">
+      <h2>Support</h2>
+      <p>If you encounter any issues or have questions about using the Invoice Creation API, please reach out to our support team:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:support@advps.store">support@advps.store</a></li>
+        <li><strong>Phone:</strong> +91-8177087738</li>
+      </ul>
+    </section>
+
+    <section id="change-log">
+      <h2>Change Log</h2>
+      <p><strong>Version 1.0</strong></p>
+      <p>Initial release of the Invoice Creation API.</p>
+    </section>
+
+    <section id="terms-of-use">
+      <h2>Terms of Use</h2>
+      <p>By using the Invoice Creation API, you agree to abide by the terms and conditions set forth by your company. Unauthorized use or misuse of the API may result in termination of access.</p>
+    </section>
+  </div>
+
+  <!-- Accordion Script -->
+  <script>
+    const acc = document.getElementsByClassName("accordion");
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
